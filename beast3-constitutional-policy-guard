@@ -1,0 +1,7 @@
+GUARD_URL=$(gcloud run services describe beast3-constitutional-policy-guard --region us-central1 --format 'value(status.url)')
+
+gcloud scheduler jobs create http beast3-merkle-batch-sealer \
+  --location=us-central1 \
+  --schedule="*/15 * * * *" \
+  --uri="$GUARD_URL/merkle/seal-batch" \
+  --http-method=POST
